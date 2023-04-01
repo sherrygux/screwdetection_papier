@@ -1,0 +1,59 @@
+\renewcommand\thechapter{}
+\makeatletter
+    \setlength\@fptop{0\p@}
+\makeatother
+\setcounter{chapter}{0}
+
+\newcounter{cha}
+\newcommand\chap[1]{%
+	\stepcounter{cha}%
+	\chapter*{A\arabic{cha} #1}%
+	\addcontentsline{toc}{section}{A\arabic{cha} #1}%
+}
+\numberwithin{figure}{cha}
+\numberwithin{table}{cha}
+
+\begin{refsection}[OwnPublication.bib]
+% KEIN Textverweis in Literaturverzeichnis voranstellen
+\renewbibmacro*{begentry}{}
+\nocite{*}
+\printbibliography[heading=bibintoc,title={List of own publications}]
+\end{refsection}
+
+
+\if@twoside\cleardoubleoddpage\else\clearpage\fi%
+\pagenumbering{Roman}%
+%!!!Dieser Wert muss angepasst werden, abhängig davon, wie viele römische Seitenzahlen für Vorwort, Abkürzungen, Inhaltsverzeichnis, etc. im ersten Teil erforderlich sind.
+\setcounter{page}{10}
+
+%\chapter{Appendices}
+\phantomsection
+\addcontentsline{toc}{chapter}{Appendix}
+\chapter*{Appendix}
+\chaptermark{Appendix}
+
+\renewcommand\thechapter{A\arabic{cha}}
+\renewcommand{\thetable}{A\arabic{cha}.\arabic{table}}
+\renewcommand{\thefigure}{A\arabic{cha}.\arabic{figure}}
+\makeatletter
+    \setlength\@fptop{0\p@}
+\makeatother
+\setcounter{chapter}{0}
+
+
+{\let\clearpage\relax \chap{Lorem ipsum}}
+
+	Lorem ipsum.
+
+\chap{List of simulation parameters}
+
+    \begin{table}[htb]
+    \centering
+        \caption{List of simulation parameters.}
+        \label{tab:SimulationParameters}
+        \splabel{tab:SimulationParameters}%Dieser Verweis wird genutzt, um im Haupttext auf das Anhangs-Kapitel zu verweisen.
+        \begin{tabular}{p{6cm} C{6cm}}
+            Lorem ipsum & Lorem ipsum \\ \midrule
+            Lorem ipsum & Lorem ipsum \\
+        \end{tabular}
+    \end{table}

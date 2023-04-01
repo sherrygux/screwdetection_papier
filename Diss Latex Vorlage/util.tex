@@ -1,0 +1,102 @@
+%***************************************************
+% Neuer Latex-Zitationsstil AK 10-2020
+%***************************************************
+
+% Komma anstelle von Punkt nach dem Titel
+\xpatchbibdriver{article}{\usebibmacro{title}\newunit}{\usebibmacro{title}\printunit{\addcomma\space}}{}{}
+% Removes comma before the "et al"
+\xpatchbibmacro{name:andothers}{{\finalandcomma}}{\addspace}{}{}
+% "in:" bei Paper-Angaben entfernen
+\renewbibmacro{in:}{}%
+% Leerzeichen anstelle Komma im Textverweis
+\renewcommand*{\nameyeardelim}{\addspace}%
+% Semikolon anstelle Komma im Textverweis und Verzeichnis
+%\renewcommand*{\multinamedelim}{\addsemicolon\space}%
+\renewcommand*{\multinamedelim}{\addspace\&\space}%
+% Trennzeichen vor letzten Autor-Namen im Textverweis und Verzeichnis
+\renewcommand*{\finalnamedelim}{\addspace\&\space}%
+% Komma anstelle Punkt nach der Jahreszahl im Verzeichnis
+\renewcommand*{\labelnamepunct}{\addcomma\space}
+% Immer zuerst Nachname und dann Vorname
+\DeclareNameAlias{sortname}{family-given}%
+% Change PhD Thesis to Dissertation
+\DefineBibliographyStrings{english}{phdthesis = {Dissertation}}
+
+\newcounter{mymaxcitenames}%
+\newcounter{mymincitenames}%
+\AtBeginDocument{%
+	\setcounter{mymaxcitenames}{\value{maxnames}}%
+	\setcounter{mymincitenames}{\value{minnames}}%
+}
+%Abschlussarbeiten als unpublished eingefügt
+\DeclareBibliographyDriver{unpublished}{%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit*{\addcomma\space}% 
+  \printfield{title}%
+  %\setunit*{\addspace}% 
+  %\printfield{institution}%
+  \setunit*{\adddot\space}% 
+  \printfield{series}%
+  \usebibmacro{finentry}%
+}
+% Textverweis für Abschlussarbeiten
+\DeclareCiteCommand{\citepA}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{%
+		\begingroup%
+		\printtext{(A\_}%
+		\usebibmacro{cite}%
+		\printtext{)}%
+		\endgroup%
+	}}%
+  {\multicitedelim}
+  {\usebibmacro{postnote}} 
+
+%***************************************************
+% Others
+%***************************************************
+\makeatletter
+\newcommand{\thickhline}{%
+    \noalign {\ifnum 0=`}\fi \hrule height 1pt
+    \futurelet \reserved@a \@xhline
+}
+\newcolumntype{"}{@{\hskip\tabcolsep\vrule width 1pt\hskip\tabcolsep}}
+\makeatother
+%Add wbk as defined color
+\definecolor{wbk}{RGB}{0,150,130}
+%Remove parentheses from equation numbering
+\makeatletter
+\renewcommand\tagform@[1]{\maketag@@@{\ignorespaces#1\unskip\@@italiccorr}}
+\makeatother
+%Change autoref to upper case for Section and Chapter
+\addto\extrasenglish{\renewcommand{\sectionautorefname}{Section} \let\subsectionautorefname\sectionautorefname \let\subsubsectionautorefname\sectionautorefname}
+\addto\extrasenglish{\def\chapterautorefname{Chapter}}
+%Centered column with fixed width
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+%Define layers for pgfplots
+\pgfdeclarelayer{front}
+\pgfdeclarelayer{back}
+\pgfsetlayers{back,main,front}
+%Page-wise footnote numbering
+\makeatletter
+\@newctr{footnote}[page]
+\makeatother
+%Roman letters
+\newcommand{\RM}[1]{\MakeUppercase{\romannumeral #1}}
+
+%***************************************************
+% Chapter reference for figures and tables in appendix
+%***************************************************
+\makeatletter
+\zref@newlist{special}% Create a new property list called special
+\zref@newprop{cha}{\arabic{cha}}% Section property holds \arabic{section}
+\zref@addprop{special}{cha}% Add a section property to special
+\zref@newprop{figure}{\arabic{figure}}
+\zref@addprop{special}{figure}
+\zref@newprop{table}{\arabic{table}}
+\zref@addprop{special}{table}
+\newcommand*{\chref}[1]{A\zref@extractdefault{#1}{cha}{??}}
+\newcommand*{\spref}[2][cha]{\zref@extractdefault{#2}{#1}{??}}
+\newcommand*{\splabel}[1]{\zref@labelbylist{#1}{special}}

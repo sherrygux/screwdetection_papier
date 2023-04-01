@@ -1,0 +1,188 @@
+%! Auswahl des Dokumententyps
+\documentclass[oneside,dissertation]{wbk}
+%\documentclass[twoside,dissertation]{wbk}
+
+%%Als Encoding ist UTF-8 vorzuziehen
+%%Dies erlaubt die direkte Verwendung von Umlauten etc. im Text.
+%%Die bib-Datei (Bibtex) wird trotzdem mit Escape-Zeichen formatiert.
+
+\usepackage{textcomp,amsmath,booktabs,amssymb,amsthm,dsfont,bbm}
+%Grafische Darstellungen
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning,shapes,decorations.markings,matrix,trees,calc,automata,decorations.pathmorphing} 
+\usepackage{pgfplots}       
+\usepackage{pgfplotstable}       
+\pgfplotsset{compat=1.9}
+\usepgfplotslibrary{fillbetween,statistics,groupplots,colormaps,external}
+%Falls große Tikz Grafiken erforderlich sind, bietet sich ggf eine Externalisierung an
+%\usetikzlibrary{external}
+%\tikzexternalize[prefix=tikz/]
+\allowdisplaybreaks[1]
+\usepackage[longtable]{multirow}
+\usepackage{ifthen}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\newtheorem{definition}{Definition}
+\numberwithin{equation}{chapter}
+\usepackage{acronym}
+\usepackage{fontawesome}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{wasysym}
+\usepackage{longtable}
+\usepackage{tikzscale}
+\usepackage{xpatch}
+\usepackage{csquotes}
+\usepackage{enumitem}
+\usepackage{import}
+\usepackage{hyperref}
+\usepackage{subcaption}
+\usepackage{filecontents}
+\usepackage{threeparttable}
+\usepackage{pgffor}
+\usepackage{zref}
+
+\usepackage[titles]{tocloft} % Spaching in list of figures and list of tables
+\cftsetindents{figure}{0em}{3.5em}
+\cftsetindents{table}{0em}{3.5em}
+
+\usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=20,shrink=20]{microtype}
+% patch prevent "Schusterjungen und Waisenkinder"
+\usepackage[all]{nowidow}
+
+\usepackage[
+backend=biber,
+uniquelist=false,
+giveninits=true,
+uniquename=false,
+style=authoryear,
+citestyle=authoryear,
+natbib=true,
+dashed=false,
+maxbibnames=99,
+mincitenames=2,
+maxcitenames=2,
+sorting=nyvt,
+doi=false,url=false,isbn=false
+]
+{biblatex}
+\addbibresource{references.bib}
+
+\input{util.tex}
+
+%! Zwingend benoetigte Angaben.
+	\author{VORNAME NAME}
+	\authorismale
+	\title{TITLE}
+	\subtitle{SUBTITLE}
+	\placeanddate{Karlsruhe, \colorbox{yellow}{TT.MM.20YY}}
+	\papertype{Dissertation}
+	\newcommand{\accessedDate}{(accessed on TT.MM.20YY)} % Access Date for Internet References with Footnote
+	\birthplace{CITY}
+	
+	%! Dieser Block erst bei der finalen Druckfreigabe auszufüllen.
+	\examdate{\colorbox{yellow}{TT.MM.2020}}
+	\mainreferent{Prof. Dr.-Ing. Gisela Lanza}
+	\coreferent{Prof. Dr.-Ing. VORNAME NAME}
+	\volumenum{\colorbox{yellow}{123}}
+
+
+\begin{document}
+%! Hier muss die richtige Sprache ausgewaehlt werden. Die andere wird auskommentiert.
+%\selectlanguage{ngerman}
+\selectlanguage{english}
+
+\maketitle
+
+\begin{publisherpreface}
+% Aktuelle Version des Vorworts der Herausgeber	
+	Die schnelle und effiziente Umsetzung innovativer Technologien wird vor dem Hintergrund der Globalisierung der Wirtschaft der entscheidende Wirtschaftsfaktor f\"ur produzierende Unternehmen. Universit\"aten k\"onnen als ``Wertsch\"opfungspartner'' einen wesentlichen Beitrag zur Wettbewerbsf\"ahigkeit der Industrie leisten, indem sie wissenschaftliche Grundlagen sowie neue Methoden und Technologien erarbeiten und aktiv den Umsetzungsprozess in die praktische Anwendung unterst\"utzen.
+	
+	Vor diesem Hintergrund wird im Rahmen dieser Schriftenreihe \"uber aktuelle Forschungsergebnisse des Instituts f\"ur Produktionstechnik (wbk) am Karlsruher Institut f\"ur Technologie (KIT) berichtet. Unsere Forschungsarbeiten besch\"aftigen sich sowohl mit der Leistungssteigerung von additiven und subtraktiven Fertigungsverfahren, den Produktionsanlagen und der Prozessautomatisierung sowie mit der ganzheitlichen Betrachtung und Optimierung der Produktionssysteme und -netzwerke. Hierbei werden jeweils technologische wie auch organisatorische Aspekte betrachtet.
+\end{publisherpreface}
+
+\begin{authorpreface}
+	Lorem ipsum.
+\end{authorpreface}
+
+%! Hier steht das abstract auf Englisch
+\begin{abstract}
+	Lorem ipsum.
+\end{abstract}
+
+% Einleitende Kapitel sind im frontmatter, die Seiten roemisch durchnummeriert.
+\frontmatter
+
+\renewcommand{\@pnumwidth}{2.5em}
+\tableofcontents
+
+\chapter{Abbreviations}
+
+\begin{longtable}{p{3cm} p{13cm}}
+	\textbf{Abbreviation} & \textbf{Description} \\ \midrule \endhead
+	ANN & Artificial Neural Network \\
+	%     &   \\
+\end{longtable}
+
+\cleardoublepage
+
+\begin{longtable}{l p{0.56\textwidth} l l}
+	\textbf{Symbol} & \textbf{Description} & \textbf{Unit} & \textbf{Value range} \\ \midrule \endhead
+	$\nabla$ & Differential operator & - & - \\
+	$\varnothing$ & Empty set & - & - \\
+	% $ $ &  & - \\
+\end{longtable}
+
+
+% Der Hauptteil der Arbeit ist im mainmatter. Hier beginnen die eigentlichen Seitenzahlen.
+\mainmatter
+
+\include{Ch1}
+
+% Erzeugt das Literaturverzeichnis
+% Wichtiger Hinweis und Annahmen: 
+% - als "unpublished" werden Abschlussarbeiten aufgeführt
+\renewcommand*{\multinamedelim}{\addsemicolon\space}%
+\defbibfilter{references}{
+  type=article or
+  type=inproceedings or
+  type=book or
+  type=incollection or 
+  type=thesis or
+  type=standard
+}
+\cleardoublepage
+\defbibnote{myprenote}{References according to the scheme (A\_<last name> <year>) refer to Bachelor and Master Theses at the wbk Institute of Production Science, which were supervised by the author of this dissertation.}
+\renewbibmacro*{begentry}{%
+	\printtext{%
+		\begingroup%
+		\defcounter{maxnames}{2}%
+		\defcounter{minnames}{2}%
+		\renewcommand*{\multinamedelim}{\addspace\&\space}%
+		\ifentrytype{unpublished}%
+            {\printtext{A\_}%
+    		\usebibmacro{cite}%
+    		}%
+    		{\usebibmacro{cite}%
+            }%
+		\endgroup%
+	}%
+	\quad\quad\\% or \addspace
+}
+\printbibliography[type=unpublished,heading=bibintoc,title={References},prenote=myprenote]
+\printbibliography[filter=references,heading=none]
+
+% Abstand im Abbildungs- und Tabellenverzeichnis zwischen Nummerierung und Seitenanzahl
+\renewcommand{\@pnumwidth}{3em}
+\renewcommand{\@tocrmarg}{4em}
+
+% Erzeugt das Abbildungsverzeichnis
+\listoffigures
+
+% Erzeugt das Tabellenverzeichnis
+\listoftables
+
+% Anhang
+\include{CHAppendix}
+
+\end{document}
